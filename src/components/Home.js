@@ -52,13 +52,15 @@ function Home() {
                 lastData().then(async (docsSnap) => {
                     let last_number = 0;
 
+
                     if (docsSnap.docs.length > 0) {
                         docsSnap.forEach(doc => {
                             last_number = doc.data().command_number;
                         });
+                        console.log('asjdkasdj')
                     }
 
-                    setCommandNumber(last_number);
+                    setCommandNumber(last_number + 1);
 
                     await addDoc(collection(db, "commands"), {
                         name: name,
