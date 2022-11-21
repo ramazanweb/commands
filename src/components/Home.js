@@ -8,6 +8,8 @@ import albertResult from './../albert.png';
 import {addDoc, getDocs, collection, query, orderBy, limit, increment, updateDoc} from "firebase/firestore";
 import db from "./database/firebase";
 import FormControl from "@mui/material/FormControl";
+import {createTheme} from "@mui/material/styles";
+import ThemeProvider from "@mui/material/styles/ThemeProvider";
 
 function Home() {
 
@@ -43,6 +45,13 @@ function Home() {
         return docsSnap;
     }
 
+    const theme = createTheme({
+        palette: {
+            error: {
+                main: "#302d30", // change the error color to pink
+            }
+        }
+    });
 
     const addCommands = async (e) => {
         if (!Boolean(name) || !Boolean(phone) || !Boolean(commandName)) {
@@ -108,43 +117,51 @@ function Home() {
                 </div>
                 <h1>Оставить заявку</h1>
                 <FormControl fullWidth sx={{m: 1}}>
-                    <TextField
-                        className="text-field"
-                        id="outlined-adornment-amount"
-                        label="Имя"
-                        size="small"
-                        value={name}
-                        onChange={nameOnChange}
-                        required
-                        error={!Boolean(name)}
-                        helperText={!Boolean(name) ? "Поле 'Имя' необходимо заполнить" : ""}
-                    />
+                    <ThemeProvider theme={theme}>
+                        <TextField
+                            className="text-field"
+                            id="outlined-adornment-amount"
+                            label="Имя"
+                            size="small"
+                            value={name}
+                            onChange={nameOnChange}
+                            required
+                            error={!Boolean(name)}
+                            helperText={!Boolean(name) ? "Поле 'Имя' необходимо заполнить" : ""}
+                        />
+                    </ThemeProvider>
                 </FormControl>
                 <FormControl fullWidth sx={{m: 1}}>
-                    <TextField
-                        className="text-field"
-                        id="outlined-adornment-amount"
-                        label="Телефон"
-                        size="small"
-                        required
-                        value={phone}
-                        onChange={phoneOnChange}
-                        error={!Boolean(phone)}
-                        helperText={!Boolean(phone) ? "Поле 'Телефон' необходимо заполнить" : ""}
-                    />
+                    <ThemeProvider theme={theme}>
+                        <TextField
+                            className="text-field"
+                            id="outlined-adornment-amount"
+                            label="Телефон"
+                            size="small"
+                            required
+                            type="number"
+                            placeholder="87759844789"
+                            value={phone}
+                            onChange={phoneOnChange}
+                            error={!Boolean(phone)}
+                            helperText={!Boolean(phone) ? "Поле 'Телефон' необходимо заполнить" : ""}
+                        />
+                    </ThemeProvider>
                 </FormControl>
                 <FormControl fullWidth sx={{m: 1}}>
-                    <TextField
-                        className="text-field"
-                        required
-                        id="outlined-adornment-amount"
-                        label="Команда"
-                        value={commandName}
-                        size="small"
-                        error={!Boolean(commandName)}
-                        onChange={commandNameOnChange}
-                        helperText={!Boolean(commandName) ? "Поле 'Команда' необходимо заполнить" : ""}
-                    />
+                    <ThemeProvider theme={theme}>
+                        <TextField
+                            className="text-field"
+                            required
+                            id="outlined-adornment-amount"
+                            label="Команда"
+                            value={commandName}
+                            size="small"
+                            error={!Boolean(commandName)}
+                            onChange={commandNameOnChange}
+                            helperText={!Boolean(commandName) ? "Поле 'Команда' необходимо заполнить" : ""}
+                        />
+                    </ThemeProvider>
                 </FormControl>
                 <button disabled={!Boolean(name) || !Boolean(phone) || !Boolean(commandName) || loading}
                         onClick={addCommands}>
