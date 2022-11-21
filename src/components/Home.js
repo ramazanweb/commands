@@ -1,11 +1,9 @@
-import React, {useEffect, useState, useRef} from 'react';
-import * as p5 from 'p5';
-import VANTA from 'vanta/dist/vanta.topology.min';
+import React, {useState} from 'react';
 import TextField from '@mui/material/TextField';
 import './Home.css';
 import albert from './../albert-4.png';
 import albertResult from './../albert.png';
-import {addDoc, getDocs, collection, query, orderBy, limit, increment, updateDoc} from "firebase/firestore";
+import {addDoc, getDocs, collection, query, orderBy, limit} from "firebase/firestore";
 import db from "./database/firebase";
 import FormControl from "@mui/material/FormControl";
 import {createTheme} from "@mui/material/styles";
@@ -17,27 +15,8 @@ function Home() {
     const [phone, setPhone] = useState('');
     const [commandName, setCommandName] = useState('');
     const [commandNumber, setCommandNumber] = useState(0);
-    const [vantaEffect, setVantaEffect] = useState(null)
-    const myRef = useRef(null)
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        let isMounted = true;
-
-        if (!vantaEffect) {
-            setVantaEffect(VANTA({
-                el: myRef.current,
-                p5: p5,
-                color: "#0A7FB1",
-                backgroundColor: "#000000",
-            }))
-        }
-
-        return () => {
-            if (vantaEffect) vantaEffect.destroy()
-            isMounted = false;
-        };
-    }, [vantaEffect]);
 
     const lastData = async () => {
         const q = query(collection(db, "commands"), orderBy("date", "desc"), limit(1));
@@ -110,7 +89,7 @@ function Home() {
     }
 
     if (commandNumber === 0) {
-        return <div className="home" ref={myRef}>
+        return <div className="home">
             <div className="card">
                 <div className="image">
                     <img src={albert} alt="Logo"/>
@@ -171,7 +150,7 @@ function Home() {
             </div>
         </div>
     } else {
-        return <div className="home" ref={myRef}>
+        return <div className="home">
             <div className="card">
                 <div className="image">
                     <img src={albert} alt="Logo"/>
@@ -189,7 +168,6 @@ function Home() {
             </div>
         </div>
     }
-
 }
 
 export default Home;
